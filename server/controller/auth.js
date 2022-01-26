@@ -1,4 +1,9 @@
+import bcrypt from 'bcryptjs';
+
 import User from '../model/User.js';
+
+// Helpers
+import generateJWT from '../helpers/jwt.js';
 
 export const createUser = async (req, res) => {
   try {
@@ -14,9 +19,16 @@ export const createUser = async (req, res) => {
 
     const user = new User(req.body);
 
+    const salt = bcrypt.genSaltSync(10);
+    user.password = bcrypt.hashSync(password, salt);
+
     await user.save();
+
+    const token = await generateJWT(user.id);
+
     res.json({
       user,
+      token,
     });
   } catch (error) {
     res.status(500).json({
