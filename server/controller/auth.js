@@ -76,9 +76,15 @@ export const login = async (req, res) => {
   }
 };
 
-export const updateToken = (req, res) => {
+export const updateToken = async (req, res) => {
+  const uid = req.uid;
+  const token = await generateJWT(uid);
+
+  const user = await User.findById(uid);
+
   res.json({
     ok: true,
-    message: 'update token',
+    token,
+    user,
   });
 };

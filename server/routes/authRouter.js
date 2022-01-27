@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { check } from 'express-validator';
 import { createUser, login, updateToken } from '../controller/auth.js';
 import validField from '../middlewares/valid-fields.js';
+import validToken from '../middlewares/valid-jwt.js';
 
 const router = Router();
 
@@ -29,6 +30,6 @@ router.post(
 );
 
 // valid token
-router.get('/token', updateToken);
+router.get('/token', validToken, updateToken);
 
 export default router;
