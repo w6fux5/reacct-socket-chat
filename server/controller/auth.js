@@ -27,6 +27,7 @@ export const createUser = async (req, res) => {
     const token = await generateJWT(user.id);
 
     res.json({
+      ok: true,
       user,
       token,
     });
@@ -38,15 +39,41 @@ export const createUser = async (req, res) => {
   }
 };
 
-export const login = (req, res) => {
+export const login = async (req, res) => {
   const { email, password } = req.body || {};
 
-  res.json({
-    ok: true,
-    message: 'login',
-    email,
-    password,
-  });
+  try {
+    const existsUser = await User.findOne({ email });
+
+    if (!existsUser) {
+      return res.status(404).json({
+        ok: false,
+        message: 'email is not exists',
+      });
+    }
+
+    const validPassword = bcrypt.compareSync(password, existsUser.password);
+
+    if (!validPassword) {
+      return res.status(400).json({
+        ok: false,
+        message: 'password is not correct',
+      });
+    }
+
+    const token = await generateJWT(existsUser.id);
+
+    res.json({
+      ok: true,
+      token,
+      user: existsUser,
+    });
+  } catch (error) {
+    res.status(500).json({
+      ok: false,
+      message: error,
+    });
+  }
 };
 
 export const updateToken = (req, res) => {
