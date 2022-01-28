@@ -8,6 +8,7 @@ import connectDB from '../config/db.js';
 
 // Router
 import authRouter from '../routes/authRouter.js';
+import messageRouter from '../routes/messageRouter.js';
 
 class Server {
   constructor() {
@@ -44,6 +45,7 @@ class Server {
 
     // Api endpoint
     this.app.use('/api/login', authRouter);
+    this.app.use('/api/message', messageRouter);
   }
 
   execute() {
