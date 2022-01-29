@@ -33,15 +33,12 @@ const LoginPage = () => {
   const onSubmit = async (e) => {
     e.preventDefault();
 
-    console.log(form);
     form.remember
       ? localStorage.setItem('email', form.email)
       : localStorage.removeItem('email');
 
     const { email, password } = form || {};
     const loginSuccess = await login(email, password);
-
-    console.log(loginSuccess);
 
     if (!loginSuccess) {
       Swal.fire({

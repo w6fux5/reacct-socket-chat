@@ -1,6 +1,6 @@
 import React, { createContext, useState, useCallback } from 'react';
 
-import { fetchSinToken } from '../utils/fetch';
+import { fetchSinToken, fetchConToken } from '../utils/fetch';
 
 export const AuthContext = createContext();
 
@@ -19,8 +19,9 @@ export const AuthProvider = ({ children }) => {
     const response = await fetchSinToken('login', { email, password }, 'POST');
 
     if (response?.ok) {
-      const { user } = response;
+      const { user, token } = response || {};
       const { uid, name, email } = user || {};
+      localStorage.setItem('token', token);
       setAuthState({
         uid,
         name,
@@ -35,9 +36,74 @@ export const AuthProvider = ({ children }) => {
     return response?.ok;
   };
 
-  const register = (name, email, password) => {};
+  const register = async (name, email, password) => {
+    const response = await fetchSinToken(
+      'login/new',
+      { name, email, password },
+      'POST'
+    );
 
-  const validToken = useCallback(() => {}, []);
+    if (response?.ok) {
+      const { user, token } = response || {};
+      const { uid, name, email } = user || {};
+
+      localStorage.setItem('token', token);
+
+      setAuthState({
+        uid,
+        name,
+        email,
+        logged: true,
+        checking: false,
+      });
+
+      console.log('register ok');
+    }
+
+    return response?.ok;
+  };
+
+  const validToken = useCallback(async () => {
+    const token = localStorage.getItem('token') || '';
+
+    if (!token) {
+      setAuthState({
+        uid: null,
+        name: null,
+        email: null,
+        logged: false,
+        checking: false,
+      });
+
+      return;
+    }
+
+    const response = await fetchConToken('login/token');
+
+    if (response.ok) {
+      const { user, token } = response || {};
+      const { uid, name, email } = user || {};
+
+      localStorage.setItem('token', token);
+      setAuthState({
+        uid,
+        name,
+        email,
+        logged: true,
+        checking: false,
+      });
+
+      console.log('update token ok');
+    } else {
+      setAuthState({
+        uid: null,
+        name: null,
+        email: null,
+        logged: false,
+        checking: false,
+      });
+    }
+  }, []);
 
   const logout = () => {};
 
