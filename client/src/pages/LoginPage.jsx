@@ -52,8 +52,6 @@ const LoginPage = () => {
     }
   };
 
-  const frontend
-
   return (
     <form
       onSubmit={onSubmit}
