@@ -1,6 +1,10 @@
 import { Router } from 'express';
 import { check } from 'express-validator';
-import { createUser, login, updateToken } from '../controller/auth.js';
+import {
+  createUser,
+  login,
+  updateToken,
+} from '../controller/authController.js';
 import validField from '../middlewares/valid-fields.js';
 import validToken from '../middlewares/valid-jwt.js';
 

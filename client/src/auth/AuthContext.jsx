@@ -29,8 +29,6 @@ export const AuthProvider = ({ children }) => {
         logged: true,
         checking: false,
       });
-
-      console.log('login ok');
     }
 
     return response?.ok;
@@ -56,8 +54,6 @@ export const AuthProvider = ({ children }) => {
         logged: true,
         checking: false,
       });
-
-      console.log('register ok');
     }
 
     return response?.ok;
@@ -68,9 +64,6 @@ export const AuthProvider = ({ children }) => {
 
     if (!token) {
       setAuthState({
-        uid: null,
-        name: null,
-        email: null,
         logged: false,
         checking: false,
       });
@@ -92,20 +85,21 @@ export const AuthProvider = ({ children }) => {
         logged: true,
         checking: false,
       });
-
-      console.log('update token ok');
     } else {
       setAuthState({
-        uid: null,
-        name: null,
-        email: null,
         logged: false,
         checking: false,
       });
     }
   }, []);
 
-  const logout = () => {};
+  const logout = () => {
+    localStorage.removeItem('token');
+    setAuthState({
+      logged: false,
+      checking: false,
+    });
+  };
 
   return (
     <AuthContext.Provider

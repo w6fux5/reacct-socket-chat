@@ -1,6 +1,8 @@
 import React, { useEffect, useContext } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
+import PublicRouter from './PublicRouter';
+import PrivateRouter from './PrivateRouter';
 import AuthRouter from './AuthRouter';
 
 import ChatPage from '../pages/ChatPage';
@@ -20,8 +22,24 @@ const AppRouter = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/auth/*" element={<AuthRouter />} />
-        <Route path="/" element={<ChatPage />} />
+        <Route
+          path="/auth/*"
+          element={
+            <PublicRouter
+              isAuthenticated={authState.logged}
+              element={AuthRouter}
+            />
+          }
+        />
+        <Route
+          path="/"
+          element={
+            <PrivateRouter
+              isAuthenticated={authState.logged}
+              element={ChatPage}
+            />
+          }
+        />
       </Routes>
     </Router>
   );

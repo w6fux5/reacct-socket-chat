@@ -3,7 +3,7 @@ import bcrypt from 'bcryptjs';
 import User from '../model/User.js';
 
 // Helpers
-import generateJWT from '../helpers/jwt.js';
+import { generateJWT } from '../helpers/jwt.js';
 
 export const createUser = async (req, res) => {
   try {

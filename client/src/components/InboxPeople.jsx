@@ -1,12 +1,12 @@
 import React from 'react';
 
-import SearchBar from './SearchBos';
+import SearchBox from './SearchBox';
 import SideBar from './SideBar';
 
 const InboxPeople = () => {
   return (
     <div className="inbox_people">
-      <SearchBar />
+      <SearchBox />
       <SideBar />
     </div>
   );
