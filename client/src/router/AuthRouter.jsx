@@ -8,6 +8,7 @@ import RegisterPage from '../pages/RegisterPage';
 import '../css/login-register.css';
 
 const AuthRouter = () => {
+  console.log('auth router');
   return (
     <div className="limiter">
       <div className="container-login100">

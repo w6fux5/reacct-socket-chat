@@ -32,7 +32,7 @@ const AppRouter = () => {
           }
         />
         <Route
-          path="/"
+          path="*"
           element={
             <PrivateRouter
               isAuthenticated={authState.logged}
