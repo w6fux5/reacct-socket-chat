@@ -2,6 +2,7 @@ import { compareJWT } from '../helpers/jwt.js';
 import {
   userIoConnect,
   userIoDisconnect,
+  getAllUsers,
 } from '../controller/socketController.js';
 
 class Sockets {
@@ -26,6 +27,7 @@ class Sockets {
 
       // TODO use token to check user is active or not
       // TODO Broadcast
+      this.io.emit('list-users', await getAllUsers());
       // TODO Socket join room
       // TODO listen user send message event
       // message-personal
