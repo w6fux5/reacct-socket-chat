@@ -1,6 +1,6 @@
 import React from 'react';
 
-const SideBarChatItem = () => {
+const SideBarChatItem = ({ user }) => {
   return (
     <div className="chat_list active_chat">
       <div className="chat_people">
@@ -11,9 +11,12 @@ const SideBarChatItem = () => {
           />
         </div>
         <div className="chat_ib">
-          <h5>Some random name</h5>
-          <span className="text-success">Online</span>
-          <span className="text-danger">Offline</span>
+          <h5>{user.name}</h5>
+          {user.online ? (
+            <span className="text-success">Online</span>
+          ) : (
+            <span className="text-danger">Offline</span>
+          )}
         </div>
       </div>
     </div>

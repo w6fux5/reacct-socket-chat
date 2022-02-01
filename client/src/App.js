@@ -6,13 +6,13 @@ import AppRouter from './router/AppRouter';
 // import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 const App = () => {
   return (
-    <AuthProvider>
-      <SocketProvider>
-        <ChatProvider>
+    <ChatProvider>
+      <AuthProvider>
+        <SocketProvider>
           <AppRouter />
-        </ChatProvider>
-      </SocketProvider>
-    </AuthProvider>
+        </SocketProvider>
+      </AuthProvider>
+    </ChatProvider>
   );
 };
 
