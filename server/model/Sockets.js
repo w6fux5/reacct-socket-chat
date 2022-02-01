@@ -25,11 +25,16 @@ class Sockets {
       console.log(`[ ${uid} ] connected!`);
       await userIoConnect(uid);
 
+      socket.join(uid);
+
       // TODO use token to check user is active or not
       // TODO Broadcast
       this.io.emit('list-users', await getAllUsers());
       // TODO Socket join room
       // TODO listen user send message event
+      socket.on('message-personal', (payload) => {
+        console.log(payload);
+      });
       // message-personal
       // TODO when user disconnect
       // markup it and broadcast to all user

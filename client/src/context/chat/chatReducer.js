@@ -7,6 +7,12 @@ const chatReducer = (state, action) => {
         ...state,
         users: action.payload,
       };
+
+    case types.SET_ACTIVE_CHAT:
+      return {
+        ...state,
+        chatActive: action.payload,
+      };
     default:
       return state;
   }
