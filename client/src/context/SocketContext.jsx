@@ -4,6 +4,8 @@ import { AuthContext } from '../auth/AuthContext';
 import { useSocket } from '../hooks/useSocket';
 import { ChatContext } from '../context/chat/ChatContext';
 
+import { scrollToBottomAnimated } from '../utils/scrollToBottom';
+
 import types from './types';
 
 export const SocketContext = createContext();
@@ -29,11 +31,22 @@ export const SocketProvider = ({ children }) => {
 
   useEffect(() => {
     socket?.on('list-users', (users) => {
-      console.log(users);
       dispatch({
         type: types.SET_USER_LIST,
         payload: users,
       });
+    });
+  }, [socket, dispatch]);
+
+  useEffect(() => {
+    socket?.on('message-personal', (message) => {
+      console.log(message);
+      dispatch({
+        type: types.SET_MESSAGE_LIST,
+        payload: message.data,
+      });
+
+      scrollToBottomAnimated('message-container');
     });
   }, [socket, dispatch]);
 

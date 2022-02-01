@@ -10,13 +10,11 @@ export const getMessageList = async (req, res) => {
       { messageFrom: to, messageTo: from },
     ],
   })
-    .sort({ createAt: 'desc' })
+    .sort({ createdAt: 'desc' })
     .limit(30);
 
   res.json({
     ok: true,
-    from,
-    to,
     messages: last30,
   });
 };

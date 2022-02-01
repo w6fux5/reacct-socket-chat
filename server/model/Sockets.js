@@ -3,6 +3,7 @@ import {
   userIoConnect,
   userIoDisconnect,
   getAllUsers,
+  saveMessage,
 } from '../controller/socketController.js';
 
 class Sockets {
@@ -22,22 +23,23 @@ class Sockets {
         return socket.disconnect();
       }
 
-      console.log(`[ ${uid} ] connected!`);
       await userIoConnect(uid);
+      console.log(`[ ${uid} ] connected!`);
 
+      // TODO Socket join room
       socket.join(uid);
 
-      // TODO use token to check user is active or not
-      // TODO Broadcast
       this.io.emit('list-users', await getAllUsers());
-      // TODO Socket join room
-      // TODO listen user send message event
-      socket.on('message-personal', (payload) => {
-        console.log(payload);
-      });
+
       // message-personal
+      // TODO listen user send message event
+      socket.on('message-personal', async (payload) => {
+        const message = await saveMessage(payload);
+        this.io.to(payload.messageTo).emit('message-personal', message);
+        this.io.to(payload.messageFrom).emit('message-personal', message);
+      });
+
       // TODO when user disconnect
-      // markup it and broadcast to all user
       socket.on('disconnect', async (socket) => {
         console.log(`[ ${uid} ] disconnected!`);
         await userIoDisconnect(uid);

@@ -24,7 +24,7 @@ const MessageInput = () => {
     if (!message) return;
     setMessage('');
     socket?.emit('message-personal', {
-      messageForm: uid,
+      messageFrom: uid,
       messageTo: chatActive,
       message,
     });
